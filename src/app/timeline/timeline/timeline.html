@@ -72,7 +72,11 @@
 
       <!-- ROWS -->
       @for (wc of schedule.workCenters(); track wc.id) {
-        <div class="timeline-row" [style.height.px]="getRowHeight(wc.id)">
+        <div
+          class="timeline-row"
+          [style.height.px]="getRowHeight(wc.id)"
+          (click)="onEmptyRowClick(wc.id, $event)"
+        >
           <!-- GRID -->
           <div class="grid-row">
             @for (unit of units(); track unit.getTime()) {
@@ -82,22 +86,40 @@
 
           <!-- WORK ORDERS -->
           @for (pwo of positionedOrdersFor(wc.id)(); track pwo.order.docId) {
-            <div class="work-order-bar" [ngClass]="pwo.order.status" [ngStyle]="getBarStyle(pwo)">
+            <div
+              class="work-order-bar"
+              (click)="$event.stopImmediatePropagation()"
+              [ngClass]="[
+                pwo.order.status,
+                activeMenuOrderId === pwo.order.docId ? 'menu-open' : '',
+              ]"
+              [ngStyle]="getBarStyle(pwo)"
+            >
               <span class="order-name">
                 {{ pwo.order.name }}
               </span>
 
+              <span class="status-pill" [ngClass]="pwo.order.status">
+                {{ pwo.order.status | titlecase }}
+              </span>
+
+              <!-- ACTION BUTTON -->
               <button
                 class="actions-btn"
                 (click)="toggleMenu(pwo.order.docId); $event.stopPropagation()"
+                aria-label="Actions"
               >
                 ⋮
               </button>
 
+              <!-- CUSTOM DROPDOWN (Solution A) -->
               @if (activeMenuOrderId === pwo.order.docId) {
-                <div class="actions-menu">
-                  <button (click)="openEditPanel(pwo.order)">Edit</button>
-                  <button class="danger" (click)="onDelete(pwo.order)">Delete</button>
+                <div class="work-order-menu" (click)="$event.stopPropagation()">
+                  <button class="dropdown-item" (click)="openEditPanel(pwo.order)">Edit</button>
+
+                  <button class="dropdown-item text-danger" (click)="onDelete(pwo.order)">
+                    Delete
+                  </button>
                 </div>
               }
             </div>
@@ -109,6 +131,8 @@
 
   <!-- ================= PANEL ================= -->
   @if (panelMode) {
+    <!-- <div class="panel-backdrop" (click)="closePanel()"></div> -->
+
     <app-work-order-panel
       [mode]="panelMode"
       [order]="editingOrder"

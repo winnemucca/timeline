@@ -63,12 +63,19 @@ export class WorkOrderPanel {
     });
   }
 
-
-
   onSubmit() {
     if (this.form.invalid) return;
 
-    this.save.emit(this.form.value as WorkOrderFormValue);
+    const raw = this.form.value;
+
+    const value: WorkOrderFormValue = {
+      name: raw.name,
+      status: raw.status,
+      startDate: this.fromDateStruct(raw.startDate),
+      endDate: this.fromDateStruct(raw.endDate),
+    };
+
+    this.save.emit(value);
   }
 
   onCancel() {

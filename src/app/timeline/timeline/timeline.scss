@@ -1,334 +1,3 @@
-// /* ================= ROOT ================= */
-
-// .timeline-root {
-//   font-family: 'Circular-Std', system-ui, sans-serif;
-//   background: #f9fafb;
-//   color: #111827;
-//   margin-left: 3rem;
-// }
-
-// .timeline-selection {
-//   padding: 1rem;
-// }
-
-// /* ================= HEADER ================= */
-
-// .timeline-header {
-//   display: flex;
-//   align-items: flex-start;
-//   border-bottom: 1px solid #e5e7eb;
-//   background: #ffffff;
-//   position: sticky;
-//   top: 0;
-//   z-index: 10;
-// }
-
-// .left-header {
-//   width: 220px;
-//   padding: 0 16px;
-//   height: 48px;
-//   display: flex;
-//   align-items: center;
-//   border-right: 1px solid #e5e7eb;
-
-//   h2 {
-//     font-size: 16px;
-//     font-weight: 600;
-//     margin: 0;
-//   }
-// }
-
-// .right-header {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: stretch;
-//   flex: 1;
-//   overflow: hidden;
-// }
-
-// .months-row,
-// .units-row {
-//   display: flex;
-//   width: max-content;
-//   height: 32px; // 🔑 hard cap
-//   line-height: 32px;
-//   flex-shrink: 0;
-// }
-
-// .month-cell {
-//   padding: 8px 12px;
-//   font-size: 12px;
-//   font-weight: 600;
-//   color: #374151;
-//   border-right: 1px solid #e5e7eb;
-//   background: #f9fafb;
-//   text-align: left;
-// }
-
-// .unit-cell {
-//   padding: 6px 0;
-//   font-size: 11px;
-//   color: #6b7280;
-//   text-align: center;
-//   border-right: 1px solid #f3f4f6;
-// }
-
-// /* ================= BODY ================= */
-
-// .timeline-body {
-//   display: flex;
-//   height: calc(100vh - 120px);
-//   overflow: hidden;
-//   border: 1px solid #f3f4f6;;
-// }
-
-// /* ----- LEFT COLUMN ----- */
-
-// .left-column {
-//   width: 220px;
-//   border-right: 1px solid #e5e7eb;
-//   background: #ffffff;
-//   flex-shrink: 0;
-// }
-
-// .work-center-cell {
-//   padding: 12px 16px;
-//   font-size: 13px;
-//   border-bottom: 1px solid #f3f4f6;
-//   height: 100%;
-//   display: flex;
-//   // align-items: center;
-// }
-
-// /* ----- RIGHT COLUMN ----- */
-
-// .right-column {
-//   position: relative;
-//   flex: 1;
-//   overflow: auto;
-//   background: #ffffff;
-// }
-
-// /* ================= ROWS ================= */
-
-// .timeline-row {
-//   position: relative;
-//   display: flex;
-//   border-bottom: 1px solid #f3f4f6;
-//   transition: background 0.15s ease;
-//   padding: 0;
-// }
-
-// .timeline-row:hover {
-//   background: #f9fafb;
-// }
-
-// /* ================= GRID ================= */
-
-// .grid-row {
-//   display: flex;
-//   height: 100%;
-//   // position: absolute;
-//   // inset: 0;
-//   // z-index: 1;
-// }
-
-// .grid-cell {
-//   flex: 0 0 auto;
-//   height: 100%;
-//   border-right: 1px solid #f3f4f6;
-//   background: transparent;
-// }
-
-// /* ================= TODAY INDICATOR ================= */
-
-// .today-indicator {
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   width: 2px;
-//   background: #2563eb;
-//   z-index: 4;
-//   pointer-events: none;
-// }
-
-// /* ================= WORK ORDER BARS ================= */
-
-// .work-order-bar {
-//   position: absolute;
-//   z-index: 5;
-//   height: 28px;
-//   border-radius: 6px;
-//   padding: 0 10px;
-//   display: flex;
-//   align-items: center;
-//   gap: 8px;
-//   font-size: 12px;
-//   font-weight: 500;
-//   color: #ffffff;
-//   cursor: pointer;
-//   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-//   transition:
-//     transform 0.12s ease,
-//     box-shadow 0.12s ease;
-// }
-
-// .work-order-bar:hover {
-//   transform: translateY(-1px);
-//   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-// }
-
-// /* ----- CONTENT ----- */
-
-// .order-name {
-//   white-space: nowrap;
-//   overflow: hidden;
-//   text-overflow: ellipsis;
-// }
-
-// .status-pill {
-//   padding: 2px 6px;
-//   border-radius: 999px;
-//   font-size: 10px;
-//   font-weight: 600;
-//   background: rgba(255, 255, 255, 0.2);
-//   text-transform: capitalize;
-// }
-
-// /* ----- ACTIONS ----- */
-
-// .actions-btn {
-//   margin-left: auto;
-//   background: transparent;
-//   border: none;
-//   color: #ffffff;
-//   cursor: pointer;
-//   font-size: 14px;
-//   line-height: 1;
-//   opacity: 0.85;
-// }
-
-// .actions-btn:hover {
-//   opacity: 1;
-// }
-
-// /* ================= STATUS COLORS ================= */
-
-// .work-order-bar.open {
-//   background: #2563eb;
-// }
-
-// .work-order-bar.in-progress {
-//   background: linear-gradient(135deg, #2563eb, #7c3aed);
-// }
-
-// .work-order-bar.complete {
-//   background: #16a34a;
-// }
-
-// .work-order-bar.blocked {
-//   background: #f59e0b;
-// }
-
-// /* ================= SCROLLBAR POLISH ================= */
-
-// .right-column::-webkit-scrollbar {
-//   height: 10px;
-//   width: 10px;
-// }
-
-// .right-column::-webkit-scrollbar-thumb {
-//   background: #d1d5db;
-//   border-radius: 6px;
-// }
-
-// .right-column::-webkit-scrollbar-track {
-//   background: #f9fafb;
-// }
-
-// /* ===============================
-//    TIMESCALE NG-SELECT (PIXEL PERFECT)
-//    =============================== */
-
-// /* ===== TIMESCALE CONTROL ===== */
-
-// .timescale-select {
-//   display: inline-flex;
-//   align-items: center;
-//   height: 36px;
-//   border-radius: 10px;
-//   background: #f6f7fb;
-//   padding: 2px;
-//   gap: 2px;
-// }
-
-// /* LEFT "Timescale" LABEL */
-// .timescale-label {
-//   padding: 6px 12px;
-//   font-size: 14px;
-//   font-weight: 500;
-//   color: #7a7f9a;
-//   background: #f6f7fb;
-//   border-radius: 8px;
-//   white-space: nowrap;
-// }
-
-// /* NG-SELECT ROOT */
-// .timescale-ng-select {
-//   min-width: 110px;
-//   height: 100%;
-// }
-
-// /* NG-SELECT CONTAINER */
-// // ***** using ng-deep for now **TODO would be to refactor using a theming pattern like sass 7-1
-// .timescale-ng-select ::ng-deep .ng-select-container {
-//   height: 32px;
-//   border-radius: 8px;
-//   border: none;
-//   background: #ffffff;
-//   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
-//   padding: 0 10px;
-// }
-
-// /* VALUE TEXT */
-// .timescale-ng-select ::ng-deep .ng-value {
-//   font-size: 14px;
-//   font-weight: 600;
-//   color: #3f47ff; // matches Sketch blue
-// }
-
-// /* CARET */
-// .timescale-ng-select ::ng-deep .ng-arrow {
-//   border-color: #3f47ff transparent transparent;
-//   margin-top: 6px;
-// }
-
-// /* REMOVE FOCUS RING */
-// .timescale-ng-select ::ng-deep .ng-select-container:focus,
-// .timescale-ng-select ::ng-deep .ng-select-container:focus-within {
-//   box-shadow: 0 0 0 2px rgba(63, 71, 255, 0.15);
-// }
-
-// /* DROPDOWN PANEL */
-// .timescale-ng-select ::ng-deep .ng-dropdown-panel {
-//   border-radius: 10px;
-//   box-shadow: 0 12px 32px rgba(16, 24, 40, 0.18);
-//   overflow: hidden;
-// }
-
-// /* OPTIONS */
-// .timescale-ng-select ::ng-deep .ng-option {
-//   padding: 10px 14px;
-//   font-size: 14px;
-// }
-
-// .timescale-ng-select ::ng-deep .ng-option.ng-option-selected {
-//   background: rgba(63, 71, 255, 0.08);
-//   color: #3f47ff;
-// }
-
-/* ================= ROOT ================= */
-
 .timeline-root {
   font-family: 'Circular-Std', system-ui, sans-serif;
   background: #f9fafb;
@@ -436,6 +105,7 @@
 
 .right-column {
   position: relative;
+  overflow: visible;
   flex: 1;
   overflow: auto;
   background: #ffffff;
@@ -445,6 +115,7 @@
 
 .timeline-row {
   position: relative;
+  overflow: visible;
   display: flex;
   border-bottom: 1px solid #eef0f4;
   background: #f7f9ff;
@@ -481,13 +152,17 @@
   pointer-events: none;
 }
 
+.work-order-bar.is-today {
+  border-left: 3px solid #4f46e5;
+}
+
 /* ================= WORK ORDER BARS ================= */
 
 .work-order-bar {
   position: absolute;
-  z-index: 5;
-  height: 24px;
-  border-radius: 999px;
+  z-index: 10;
+  height: 38px;
+  border-radius: 5px;
   padding: 0 12px;
   display: flex;
   align-items: center;
@@ -498,6 +173,34 @@
   color: #1e3a8a;
   cursor: pointer;
   box-shadow: none;
+}
+
+/* In Progress */
+.work-order-bar.in-progress {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #1e3a8a;
+}
+
+/* Complete */
+.work-order-bar.complete {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+  color: #065f46;
+}
+
+/* Blocked */
+.work-order-bar.blocked {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: #9a3412;
+}
+
+/* Planned */
+.work-order-bar.planned {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #374151;
 }
 
 /* ----- BAR CONTENT ----- */
@@ -627,4 +330,108 @@
 .timescale-ng-select ::ng-deep .ng-arrow {
   border-color: #3f47ff transparent transparent;
   margin-top: 6px;
+}
+
+/* edit and delete */
+.work-order-actions {
+  z-index: 3000;
+  position: absolute;
+  right: 6px;
+  // top: 50%;
+  top: 6px;
+  // transform: translateY(-50%);
+
+  .dropdown-toggle {
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  .dropdown-menu {
+    min-width: 120px;
+    padding: 4px 0;
+    z-index: 4000 !important; // short on time but would ideally address z-index with a cleaner structure
+  }
+
+  .dropdown-item {
+    font-size: 14px;
+    padding: 6px 12px;
+  }
+
+  .timeline-row,
+  .right-column {
+    overflow: visible;
+  }
+}
+
+/* ensure bar can host menu */
+.work-order-bar {
+  position: absolute;
+  z-index: 10;
+  overflow: visible;
+}
+
+.work-order-bar.menu-open {
+  z-index: 10000;
+}
+
+/* custom dropdown */
+.work-order-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 6px;
+
+  min-width: 140px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  z-index: 9999;
+}
+
+.work-order-bar.in-progress:hover {
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+.work-order-bar.complete:hover {
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+}
+
+.work-order-bar.blocked:hover {
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+/* reuse bootstrap look */
+.work-order-menu .dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.work-order-menu .dropdown-item:hover {
+  background: #f3f4f6;
+}
+
+.panel-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 2000;
+  animation: backdrop-fade-in 150ms ease-out;
+}
+
+@keyframes backdrop-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

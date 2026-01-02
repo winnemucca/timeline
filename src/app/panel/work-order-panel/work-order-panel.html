@@ -9,55 +9,53 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label>Work Order Name</label>
-      <input
-        type="text"
-        formControlName="name"
-        placeholder="Enter name"
-      />
+      <input type="text" formControlName="name" placeholder="Enter name" />
     </div>
 
     <div class="form-group">
       <label>Status</label>
+
       <ng-select
+        class="status-select"
         [items]="statusOptions"
         bindLabel="label"
         bindValue="value"
         [clearable]="false"
         [searchable]="false"
         formControlName="status"
-      ></ng-select>
+      >
+        <!-- SELECTED VALUE -->
+        <ng-template ng-label-tmp let-item="item">
+          <span class="status-pill" [ngClass]="item.value">
+            {{ item.label }}
+          </span>
+        </ng-template>
+
+        <!-- DROPDOWN OPTIONS -->
+        <ng-template ng-option-tmp let-item="item">
+          <span class="status-pill" [ngClass]="item.value">
+            {{ item.label }}
+          </span>
+        </ng-template>
+      </ng-select>
     </div>
 
     <div class="form-row">
       <div class="form-group">
         <label>Start Date</label>
-        <ngb-datepicker
-          formControlName="startDate"
-        ></ngb-datepicker>
+        <ngb-datepicker formControlName="startDate"></ngb-datepicker>
       </div>
 
       <div class="form-group">
         <label>End Date</label>
-        <ngb-datepicker
-          formControlName="endDate"
-        ></ngb-datepicker>
+        <ngb-datepicker formControlName="endDate"></ngb-datepicker>
       </div>
     </div>
 
     <footer class="panel-footer">
-      <button
-        type="button"
-        class="btn-secondary"
-        (click)="onCancel()"
-      >
-        Cancel
-      </button>
+      <button type="button" class="btn-secondary" (click)="onCancel()">Cancel</button>
 
-      <button
-        type="submit"
-        class="btn-primary"
-        [disabled]="form.invalid"
-      >
+      <button type="submit" class="btn-primary" [disabled]="form.invalid">
         {{ submitLabel() }}
       </button>
     </footer>

@@ -20,6 +20,9 @@ interface PositionedWorkOrder {
   imports: [CommonModule, ReactiveFormsModule, NgSelectModule, WorkOrderPanel],
   templateUrl: './timeline.html',
   styleUrl: './timeline.scss',
+  host: {
+    '(document:keydown.escape)': 'onEscape()',
+  },
 })
 export class Timeline {
   /* ================= DI ================= */
@@ -223,6 +226,16 @@ export class Timeline {
     this.activeMenuOrderId = null;
   }
 
+  onEmptyRowClick(workCenterId: string, event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    if (target.closest('.work-order-bar')) return;
+    if (target.closest('.dropdown-menu')) return;
+    if (target.closest('.dropdown-toggle')) return;
+
+    this.openCreatePanel(workCenterId);
+  }
+
   onPanelSave(form: WorkOrderFormValue) {
     if (this.panelMode === 'create' && this.panelWorkCenterId) {
       this.schedule.createWorkOrder(form, this.panelWorkCenterId);
@@ -244,6 +257,12 @@ export class Timeline {
   onDelete(order: WorkOrder) {
     this.schedule.deleteWorkOrder(order.docId);
     this.activeMenuOrderId = null;
+  }
+
+  onEscape() {
+    if (this.panelMode) {
+      this.closePanel(); // ← your existing method
+    }
   }
 
   /* ================= HELPERS ================= */
