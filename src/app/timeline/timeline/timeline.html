@@ -1,12 +1,10 @@
 <div class="timeline-root">
-  <!-- ===== HEADER ===== -->
-  <div class="timeline-header">
-    <div class="left-header">
-      <h2>Work Orders</h2>
-    </div>
+  <div class="timeline-selection">
+    <h2>Work Orders</h2>
 
-    <div class="right-header">
-      <!-- TIMESCALE SELECT (RIGHT HEADER / ABOVE GRID) -->
+    <div class="timescale-control">
+      <span class="timescale-label">Timescale</span>
+
       <div class="timescale-select">
         <ng-select
           [items]="['day', 'week', 'month']"
@@ -23,30 +21,40 @@
           </ng-template>
         </ng-select>
       </div>
+    </div>
+  </div>
+  <!-- ================= HEADER ================= -->
+  <div class="timeline-header">
+    <!-- LEFT -->
+    <div class="left-header"></div>
 
-      <!-- MONTH GROUP HEADER -->
-      <div class="months-row">
-        @for (month of months(); track month.label) {
-          <div class="month-cell" [style.width.px]="month.span * pxPerUnit">
-            {{ month.label }}
-          </div>
-        }
-      </div>
-
-      <!-- UNIT HEADER -->
-      <div class="units-row">
-        @for (unit of units(); track unit.getTime()) {
-          <div class="unit-cell" [style.width.px]="pxPerUnit">
-            {{ scale.label(unit) }}
-          </div>
-        }
-      </div>
+    <!-- RIGHT -->
+    <div class="right-header">
+      <!-- MONTH HEADER -->
+      @if (timescale() === 'month') {
+        <div class="months-row">
+          @for (month of months(); track month.label) {
+            <div class="month-cell" [style.width.px]="month.span * pxPerUnit">
+              {{ month.label }}
+            </div>
+          }
+        </div>
+      } @else {
+        <!-- UNIT HEADER -->
+        <div class="units-row">
+          @for (unit of units(); track unit.getTime()) {
+            <div class="unit-cell" [style.width.px]="pxPerUnit">
+              {{ scale().label(unit) }}
+            </div>
+          }
+        </div>
+      }
     </div>
   </div>
 
-  <!-- ===== BODY ===== -->
+  <!-- ================= BODY ================= -->
   <div class="timeline-body">
-    <!-- LEFT FIXED COLUMN -->
+    <!-- LEFT COLUMN -->
     <div class="left-column">
       @for (wc of schedule.workCenters(); track wc.id) {
         <div class="work-center-cell">
@@ -55,37 +63,33 @@
       }
     </div>
 
-    <!-- RIGHT SCROLLABLE GRID -->
+    <!-- RIGHT GRID -->
     <div class="right-column">
-      <!-- TODAY INDICATOR -->
+      <!-- TODAY -->
       @if (todayOffsetPx() !== null) {
         <div class="today-indicator" [style.left.px]="todayOffsetPx()"></div>
       }
 
-      <!-- WORK CENTER ROWS -->
+      <!-- ROWS -->
       @for (wc of schedule.workCenters(); track wc.id) {
         <div class="timeline-row" [style.height.px]="getRowHeight(wc.id)">
-          <!-- GRID BACKGROUND -->
+          <!-- GRID -->
           <div class="grid-row">
             @for (unit of units(); track unit.getTime()) {
               <div class="grid-cell" [style.width.px]="pxPerUnit"></div>
             }
           </div>
 
-          <!-- WORK ORDER BARS -->
+          <!-- WORK ORDERS -->
           @for (pwo of positionedOrdersFor(wc.id)(); track pwo.order.docId) {
             <div class="work-order-bar" [ngClass]="pwo.order.status" [ngStyle]="getBarStyle(pwo)">
               <span class="order-name">
                 {{ pwo.order.name }}
               </span>
 
-              <span class="status-pill">
-                {{ pwo.order.status }}
-              </span>
-
               <button
-                (click)="openMenu(pwo.order.docId); $event.stopPropagation()"
                 class="actions-btn"
+                (click)="toggleMenu(pwo.order.docId); $event.stopPropagation()"
               >
                 ⋮
               </button>
@@ -93,7 +97,6 @@
               @if (activeMenuOrderId === pwo.order.docId) {
                 <div class="actions-menu">
                   <button (click)="openEditPanel(pwo.order)">Edit</button>
-
                   <button class="danger" (click)="onDelete(pwo.order)">Delete</button>
                 </div>
               }
@@ -104,6 +107,7 @@
     </div>
   </div>
 
+  <!-- ================= PANEL ================= -->
   @if (panelMode) {
     <app-work-order-panel
       [mode]="panelMode"

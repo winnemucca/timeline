@@ -1,3 +1,332 @@
+// /* ================= ROOT ================= */
+
+// .timeline-root {
+//   font-family: 'Circular-Std', system-ui, sans-serif;
+//   background: #f9fafb;
+//   color: #111827;
+//   margin-left: 3rem;
+// }
+
+// .timeline-selection {
+//   padding: 1rem;
+// }
+
+// /* ================= HEADER ================= */
+
+// .timeline-header {
+//   display: flex;
+//   align-items: flex-start;
+//   border-bottom: 1px solid #e5e7eb;
+//   background: #ffffff;
+//   position: sticky;
+//   top: 0;
+//   z-index: 10;
+// }
+
+// .left-header {
+//   width: 220px;
+//   padding: 0 16px;
+//   height: 48px;
+//   display: flex;
+//   align-items: center;
+//   border-right: 1px solid #e5e7eb;
+
+//   h2 {
+//     font-size: 16px;
+//     font-weight: 600;
+//     margin: 0;
+//   }
+// }
+
+// .right-header {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: stretch;
+//   flex: 1;
+//   overflow: hidden;
+// }
+
+// .months-row,
+// .units-row {
+//   display: flex;
+//   width: max-content;
+//   height: 32px; // 🔑 hard cap
+//   line-height: 32px;
+//   flex-shrink: 0;
+// }
+
+// .month-cell {
+//   padding: 8px 12px;
+//   font-size: 12px;
+//   font-weight: 600;
+//   color: #374151;
+//   border-right: 1px solid #e5e7eb;
+//   background: #f9fafb;
+//   text-align: left;
+// }
+
+// .unit-cell {
+//   padding: 6px 0;
+//   font-size: 11px;
+//   color: #6b7280;
+//   text-align: center;
+//   border-right: 1px solid #f3f4f6;
+// }
+
+// /* ================= BODY ================= */
+
+// .timeline-body {
+//   display: flex;
+//   height: calc(100vh - 120px);
+//   overflow: hidden;
+//   border: 1px solid #f3f4f6;;
+// }
+
+// /* ----- LEFT COLUMN ----- */
+
+// .left-column {
+//   width: 220px;
+//   border-right: 1px solid #e5e7eb;
+//   background: #ffffff;
+//   flex-shrink: 0;
+// }
+
+// .work-center-cell {
+//   padding: 12px 16px;
+//   font-size: 13px;
+//   border-bottom: 1px solid #f3f4f6;
+//   height: 100%;
+//   display: flex;
+//   // align-items: center;
+// }
+
+// /* ----- RIGHT COLUMN ----- */
+
+// .right-column {
+//   position: relative;
+//   flex: 1;
+//   overflow: auto;
+//   background: #ffffff;
+// }
+
+// /* ================= ROWS ================= */
+
+// .timeline-row {
+//   position: relative;
+//   display: flex;
+//   border-bottom: 1px solid #f3f4f6;
+//   transition: background 0.15s ease;
+//   padding: 0;
+// }
+
+// .timeline-row:hover {
+//   background: #f9fafb;
+// }
+
+// /* ================= GRID ================= */
+
+// .grid-row {
+//   display: flex;
+//   height: 100%;
+//   // position: absolute;
+//   // inset: 0;
+//   // z-index: 1;
+// }
+
+// .grid-cell {
+//   flex: 0 0 auto;
+//   height: 100%;
+//   border-right: 1px solid #f3f4f6;
+//   background: transparent;
+// }
+
+// /* ================= TODAY INDICATOR ================= */
+
+// .today-indicator {
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   width: 2px;
+//   background: #2563eb;
+//   z-index: 4;
+//   pointer-events: none;
+// }
+
+// /* ================= WORK ORDER BARS ================= */
+
+// .work-order-bar {
+//   position: absolute;
+//   z-index: 5;
+//   height: 28px;
+//   border-radius: 6px;
+//   padding: 0 10px;
+//   display: flex;
+//   align-items: center;
+//   gap: 8px;
+//   font-size: 12px;
+//   font-weight: 500;
+//   color: #ffffff;
+//   cursor: pointer;
+//   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+//   transition:
+//     transform 0.12s ease,
+//     box-shadow 0.12s ease;
+// }
+
+// .work-order-bar:hover {
+//   transform: translateY(-1px);
+//   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+// }
+
+// /* ----- CONTENT ----- */
+
+// .order-name {
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+// .status-pill {
+//   padding: 2px 6px;
+//   border-radius: 999px;
+//   font-size: 10px;
+//   font-weight: 600;
+//   background: rgba(255, 255, 255, 0.2);
+//   text-transform: capitalize;
+// }
+
+// /* ----- ACTIONS ----- */
+
+// .actions-btn {
+//   margin-left: auto;
+//   background: transparent;
+//   border: none;
+//   color: #ffffff;
+//   cursor: pointer;
+//   font-size: 14px;
+//   line-height: 1;
+//   opacity: 0.85;
+// }
+
+// .actions-btn:hover {
+//   opacity: 1;
+// }
+
+// /* ================= STATUS COLORS ================= */
+
+// .work-order-bar.open {
+//   background: #2563eb;
+// }
+
+// .work-order-bar.in-progress {
+//   background: linear-gradient(135deg, #2563eb, #7c3aed);
+// }
+
+// .work-order-bar.complete {
+//   background: #16a34a;
+// }
+
+// .work-order-bar.blocked {
+//   background: #f59e0b;
+// }
+
+// /* ================= SCROLLBAR POLISH ================= */
+
+// .right-column::-webkit-scrollbar {
+//   height: 10px;
+//   width: 10px;
+// }
+
+// .right-column::-webkit-scrollbar-thumb {
+//   background: #d1d5db;
+//   border-radius: 6px;
+// }
+
+// .right-column::-webkit-scrollbar-track {
+//   background: #f9fafb;
+// }
+
+// /* ===============================
+//    TIMESCALE NG-SELECT (PIXEL PERFECT)
+//    =============================== */
+
+// /* ===== TIMESCALE CONTROL ===== */
+
+// .timescale-select {
+//   display: inline-flex;
+//   align-items: center;
+//   height: 36px;
+//   border-radius: 10px;
+//   background: #f6f7fb;
+//   padding: 2px;
+//   gap: 2px;
+// }
+
+// /* LEFT "Timescale" LABEL */
+// .timescale-label {
+//   padding: 6px 12px;
+//   font-size: 14px;
+//   font-weight: 500;
+//   color: #7a7f9a;
+//   background: #f6f7fb;
+//   border-radius: 8px;
+//   white-space: nowrap;
+// }
+
+// /* NG-SELECT ROOT */
+// .timescale-ng-select {
+//   min-width: 110px;
+//   height: 100%;
+// }
+
+// /* NG-SELECT CONTAINER */
+// // ***** using ng-deep for now **TODO would be to refactor using a theming pattern like sass 7-1
+// .timescale-ng-select ::ng-deep .ng-select-container {
+//   height: 32px;
+//   border-radius: 8px;
+//   border: none;
+//   background: #ffffff;
+//   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.06);
+//   padding: 0 10px;
+// }
+
+// /* VALUE TEXT */
+// .timescale-ng-select ::ng-deep .ng-value {
+//   font-size: 14px;
+//   font-weight: 600;
+//   color: #3f47ff; // matches Sketch blue
+// }
+
+// /* CARET */
+// .timescale-ng-select ::ng-deep .ng-arrow {
+//   border-color: #3f47ff transparent transparent;
+//   margin-top: 6px;
+// }
+
+// /* REMOVE FOCUS RING */
+// .timescale-ng-select ::ng-deep .ng-select-container:focus,
+// .timescale-ng-select ::ng-deep .ng-select-container:focus-within {
+//   box-shadow: 0 0 0 2px rgba(63, 71, 255, 0.15);
+// }
+
+// /* DROPDOWN PANEL */
+// .timescale-ng-select ::ng-deep .ng-dropdown-panel {
+//   border-radius: 10px;
+//   box-shadow: 0 12px 32px rgba(16, 24, 40, 0.18);
+//   overflow: hidden;
+// }
+
+// /* OPTIONS */
+// .timescale-ng-select ::ng-deep .ng-option {
+//   padding: 10px 14px;
+//   font-size: 14px;
+// }
+
+// .timescale-ng-select ::ng-deep .ng-option.ng-option-selected {
+//   background: rgba(63, 71, 255, 0.08);
+//   color: #3f47ff;
+// }
+
 /* ================= ROOT ================= */
 
 .timeline-root {
@@ -10,6 +339,7 @@
 
 .timeline-header {
   display: flex;
+  align-items: stretch;
   border-bottom: 1px solid #e5e7eb;
   background: #ffffff;
   position: sticky;
@@ -17,10 +347,15 @@
   z-index: 10;
 }
 
+/* ----- LEFT HEADER ----- */
+
 .left-header {
   width: 220px;
-  padding: 16px;
+  height: 64px; // 32px month + 32px units
+  padding: 0 16px;
   border-right: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
 
   h2 {
     font-size: 16px;
@@ -29,19 +364,30 @@
   }
 }
 
+/* ----- RIGHT HEADER ----- */
+
 .right-header {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow: hidden;
 }
+
+/* HEADER ROWS */
 
 .months-row,
 .units-row {
   display: flex;
   width: max-content;
+  height: 32px;
+  line-height: 32px;
+  flex-shrink: 0;
 }
 
+/* MONTH CELLS */
+
 .month-cell {
-  padding: 8px 12px;
+  padding: 0 12px;
   font-size: 12px;
   font-weight: 600;
   color: #374151;
@@ -50,19 +396,22 @@
   text-align: left;
 }
 
+/* UNIT CELLS */
+
 .unit-cell {
-  padding: 6px 0;
+  width: auto;
+  padding: 0;
   font-size: 11px;
   color: #6b7280;
   text-align: center;
-  border-right: 1px solid #f3f4f6;
+  border-right: 1px solid rgba(15, 23, 42, 0.04);
 }
 
 /* ================= BODY ================= */
 
 .timeline-body {
   display: flex;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 64px);
   overflow: hidden;
 }
 
@@ -78,8 +427,7 @@
 .work-center-cell {
   padding: 12px 16px;
   font-size: 13px;
-  border-bottom: 1px solid #f3f4f6;
-  height: 100%;
+  border-bottom: 1px solid #eef0f4;
   display: flex;
   align-items: center;
 }
@@ -97,25 +445,26 @@
 
 .timeline-row {
   position: relative;
-  border-bottom: 1px solid #f3f4f6;
-  transition: background 0.15s ease;
+  display: flex;
+  border-bottom: 1px solid #eef0f4;
+  background: #f7f9ff;
 }
 
-.timeline-row:hover {
-  background: #f9fafb;
+.timeline-row:nth-child(even) {
+  background: #ffffff;
 }
 
 /* ================= GRID ================= */
 
 .grid-row {
   display: flex;
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  height: 100%;
 }
 
 .grid-cell {
-  border-right: 1px solid #f3f4f6;
+  flex: 0 0 auto;
+  height: 100%;
+  border-right: 1px solid rgba(15, 23, 42, 0.04);
   background: transparent;
 }
 
@@ -125,8 +474,9 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 2px;
-  background: #2563eb;
+  width: 1px;
+  background: #6366f1;
+  opacity: 0.6;
   z-index: 4;
   pointer-events: none;
 }
@@ -136,28 +486,21 @@
 .work-order-bar {
   position: absolute;
   z-index: 5;
-  height: 28px;
-  border-radius: 6px;
-  padding: 0 10px;
+  height: 24px;
+  border-radius: 999px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 12px;
   font-weight: 500;
-  color: #ffffff;
+  background: #eef2ff;
+  color: #1e3a8a;
   cursor: pointer;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease;
+  box-shadow: none;
 }
 
-.work-order-bar:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-}
-
-/* ----- CONTENT ----- */
+/* ----- BAR CONTENT ----- */
 
 .order-name {
   white-space: nowrap;
@@ -165,13 +508,34 @@
   text-overflow: ellipsis;
 }
 
+/* STATUS CHIP */
+
 .status-pill {
-  padding: 2px 6px;
-  border-radius: 999px;
+  padding: 2px 8px;
   font-size: 10px;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.2);
-  text-transform: capitalize;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-pill.in-progress {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.status-pill.complete {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-pill.blocked {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.planned {
+  background: #e5e7eb;
+  color: #374151;
 }
 
 /* ----- ACTIONS ----- */
@@ -180,36 +544,28 @@
   margin-left: auto;
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: #4f46e5;
   cursor: pointer;
   font-size: 14px;
   line-height: 1;
-  opacity: 0.85;
 }
 
-.actions-btn:hover {
-  opacity: 1;
+/* ================= EMPTY ROW CTA ================= */
+
+.empty-row-cta {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  font-size: 12px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4338ca;
+  cursor: pointer;
 }
 
-/* ================= STATUS COLORS ================= */
-
-.work-order-bar.open {
-  background: #2563eb;
-}
-
-.work-order-bar.in-progress {
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
-}
-
-.work-order-bar.complete {
-  background: #16a34a;
-}
-
-.work-order-bar.blocked {
-  background: #f59e0b;
-}
-
-/* ================= SCROLLBAR POLISH ================= */
+/* ================= SCROLLBAR ================= */
 
 .right-column::-webkit-scrollbar {
   height: 10px;
@@ -225,100 +581,50 @@
   background: #f9fafb;
 }
 
-/* ===============================
-   TIMESCALE NG-SELECT (PIXEL PERFECT)
-   =============================== */
+/* ================= TIMESCALE CONTROL ================= */
+
+.timescale-control {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
 .timescale-select {
-  width: 120px;
-  margin-bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  border-radius: 10px;
+  background: #f6f7fb;
+  padding: 2px;
+  gap: 2px;
+}
 
-  ng-select {
-    font-family: 'Circular-Std';
-    font-size: 13px;
-  }
+.timescale-label {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #7a7f9a;
+  white-space: nowrap;
+}
 
-  .ng-select-container {
-    height: 32px;
-    min-height: 32px;
-    border-radius: 6px;
-    border: 1px solid #d6d9de;
-    background-color: #ffffff;
-    box-shadow: none;
-    padding: 0 8px;
+/* NG-SELECT OVERRIDES */
 
-    display: flex;
-    align-items: center;
+.timescale-ng-select ::ng-deep .ng-select-container {
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  background: #ffffff;
+  padding: 0 10px;
+}
 
-    transition:
-      border-color 0.15s ease,
-      box-shadow 0.15s ease,
-      background-color 0.15s ease;
-  }
+.timescale-ng-select ::ng-deep .ng-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f47ff;
+}
 
-  /* VALUE TEXT */
-  .ng-value {
-    font-weight: 500;
-    color: #1f2937; // neutral dark gray
-  }
-
-  /* PLACEHOLDER (not visible here, but safe) */
-  .ng-placeholder {
-    color: #9ca3af;
-  }
-
-  /* DROPDOWN ARROW */
-  .ng-arrow-wrapper {
-    width: 20px;
-    padding-right: 2px;
-  }
-
-  .ng-arrow {
-    border-color: #6b7280 transparent transparent;
-    border-width: 5px 4px 0;
-  }
-
-  /* HOVER */
-  ng-select:hover .ng-select-container {
-    border-color: #9ca3af;
-    background-color: #fafafa;
-  }
-
-  /* FOCUS */
-  ng-select.ng-select-focused .ng-select-container {
-    border-color: #2563eb; // primary blue
-    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25);
-  }
-
-  /* OPEN STATE */
-  ng-select.ng-select-opened .ng-select-container {
-    border-color: #2563eb;
-    background-color: #ffffff;
-  }
-
-  /* DROPDOWN PANEL */
-  .ng-dropdown-panel {
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-    margin-top: 4px;
-    overflow: hidden;
-  }
-
-  /* OPTIONS */
-  .ng-option {
-    font-size: 13px;
-    padding: 8px 12px;
-    font-family: 'Circular-Std';
-  }
-
-  .ng-option:hover {
-    background-color: #f3f4f6;
-  }
-
-  .ng-option-selected {
-    background-color: #e0e7ff;
-    color: #1e3a8a;
-    font-weight: 500;
-  }
+.timescale-ng-select ::ng-deep .ng-arrow {
+  border-color: #3f47ff transparent transparent;
+  margin-top: 6px;
 }

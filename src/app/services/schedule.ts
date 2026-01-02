@@ -32,6 +32,50 @@ export class Schedule {
         endDate: '2026-01-02',
       },
     },
+    {
+      docId: 'wo-3',
+      docType: 'workOrder',
+      data: {
+        name: 'Order C',
+        workCenterId: 'wc-2',
+        status: 'open',
+        startDate: '2025-12-22',
+        endDate: '2025-12-30',
+      },
+    },
+    {
+      docId: 'wo-4',
+      docType: 'workOrder',
+      data: {
+        name: 'Order D',
+        workCenterId: 'wc-3',
+        status: 'blocked',
+        startDate: '2025-12-18',
+        endDate: '2025-12-23',
+      },
+    },
+    {
+      docId: 'wo-5',
+      docType: 'workOrder',
+      data: {
+        name: 'Order E',
+        workCenterId: 'wc-4',
+        status: 'complete',
+        startDate: '2025-12-10',
+        endDate: '2025-12-15',
+      },
+    },
+    {
+      docId: 'wo-6',
+      docType: 'workOrder',
+      data: {
+        name: 'Order F',
+        workCenterId: 'wc-5',
+        status: 'planned',
+        startDate: '2026-01-05',
+        endDate: '2026-01-10',
+      },
+    },
   ]);
 
   /* ---------------- WORK CENTERS ---------------- */

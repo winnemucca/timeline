@@ -63,26 +63,7 @@ export class WorkOrderPanel {
     });
   }
 
-  /* ---------------- ACTIONS ---------------- */
 
-  // onSubmit() {
-  //   if (this.form.invalid) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   const value = this.form.value;
-
-  //   const result: WorkOrder = {
-  //     ...(this.order() ?? { id: crypto.randomUUID() }),
-  //     name: value.name,
-  //     status: value.status,
-  //     startDate: this.fromDateStruct(value.startDate),
-  //     endDate: this.fromDateStruct(value.endDate),
-  //   };
-
-  //   this.save.emit(result);
-  // }
 
   onSubmit() {
     if (this.form.invalid) return;
