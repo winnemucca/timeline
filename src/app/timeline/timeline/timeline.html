@@ -1,12 +1,13 @@
 <div class="timeline-root">
   <div class="timeline-selection">
-    <h2>Work Orders</h2>
+    <h3 class="selection-description">Work Orders</h3>
 
     <div class="timescale-control">
       <span class="timescale-label">Timescale</span>
 
       <div class="timescale-select">
         <ng-select
+          class="timescale-ng-select"
           [items]="['day', 'week', 'month']"
           [formControl]="timescaleControl"
           [clearable]="false"
@@ -26,7 +27,9 @@
   <!-- ================= HEADER ================= -->
   <div class="timeline-header">
     <!-- LEFT -->
-    <div class="left-header"></div>
+    <div class="left-header">
+      <span class="header-title">Work Center</span>
+    </div>
 
     <!-- RIGHT -->
     <div class="right-header">
@@ -64,7 +67,7 @@
     </div>
 
     <!-- RIGHT GRID -->
-    <div class="right-column">
+    <div class="right-column" #rightColumn>
       <!-- TODAY -->
       @if (todayOffsetPx() !== null) {
         <div class="today-indicator" [style.left.px]="todayOffsetPx()"></div>
@@ -117,7 +120,7 @@
                 <div class="work-order-menu" (click)="$event.stopPropagation()">
                   <button class="dropdown-item" (click)="openEditPanel(pwo.order)">Edit</button>
 
-                  <button class="dropdown-item text-danger" (click)="onDelete(pwo.order)">
+                  <button class="dropdown-item text-primary" (click)="onDelete(pwo.order)">
                     Delete
                   </button>
                 </div>

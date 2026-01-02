@@ -7,8 +7,6 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable({ providedIn: 'root' })
 export class Schedule {
-  /* ---------------- DOCUMENT SOURCE OF TRUTH ---------------- */
-
   private readonly workOrderDocuments = signal<WorkOrderDocument[]>([
     {
       docId: 'wo-1',
@@ -27,7 +25,7 @@ export class Schedule {
       data: {
         name: 'Order B',
         workCenterId: 'wc-1',
-        status: 'planned',
+        status: 'open',
         startDate: '2025-12-28',
         endDate: '2026-01-02',
       },
@@ -38,7 +36,7 @@ export class Schedule {
       data: {
         name: 'Order C',
         workCenterId: 'wc-2',
-        status: 'open',
+        status: 'blocked',
         startDate: '2025-12-22',
         endDate: '2025-12-30',
       },
@@ -48,10 +46,10 @@ export class Schedule {
       docType: 'workOrder',
       data: {
         name: 'Order D',
-        workCenterId: 'wc-3',
-        status: 'blocked',
-        startDate: '2025-12-18',
-        endDate: '2025-12-23',
+        workCenterId: 'wc-2',
+        status: 'complete',
+        startDate: '2026-01-02',
+        endDate: '2026-01-06',
       },
     },
     {
@@ -59,8 +57,8 @@ export class Schedule {
       docType: 'workOrder',
       data: {
         name: 'Order E',
-        workCenterId: 'wc-4',
-        status: 'complete',
+        workCenterId: 'wc-3',
+        status: 'open',
         startDate: '2025-12-10',
         endDate: '2025-12-15',
       },
@@ -70,15 +68,35 @@ export class Schedule {
       docType: 'workOrder',
       data: {
         name: 'Order F',
+        workCenterId: 'wc-4',
+        status: 'in-progress',
+        startDate: '2025-12-18',
+        endDate: '2025-12-22',
+      },
+    },
+    {
+      docId: 'wo-7',
+      docType: 'workOrder',
+      data: {
+        name: 'Order G',
         workCenterId: 'wc-5',
-        status: 'planned',
+        status: 'complete',
         startDate: '2026-01-05',
         endDate: '2026-01-10',
       },
     },
+    {
+      docId: 'wo-8',
+      docType: 'workOrder',
+      data: {
+        name: 'Order H',
+        workCenterId: 'wc-5',
+        status: 'blocked',
+        startDate: '2026-01-12',
+        endDate: '2026-01-16',
+      },
+    },
   ]);
-
-  /* ---------------- WORK CENTERS ---------------- */
 
   readonly workCenters = signal<WorkCenter[]>([
     { id: 'wc-1', name: 'Extrusion Line A' },
@@ -88,13 +106,9 @@ export class Schedule {
     { id: 'wc-5', name: 'Packaging Line' },
   ]);
 
-  /* ---------------- DERIVED DOMAIN MODELS ---------------- */
-
   readonly workOrders = computed<WorkOrder[]>(() =>
     this.workOrderDocuments().map(mapDocumentToWorkOrder),
   );
-
-  /* ---------------- CREATE ---------------- */
 
   createWorkOrder(form: WorkOrderFormValue, workCenterId: string) {
     const order: WorkOrder = {
@@ -110,8 +124,6 @@ export class Schedule {
 
     this.workOrderDocuments.update((docs) => [...docs, document]);
   }
-
-  /* ---------------- UPDATE ---------------- */
 
   updateWorkOrder(docId: string, form: WorkOrderFormValue) {
     this.workOrderDocuments.update((docs) =>
@@ -132,9 +144,14 @@ export class Schedule {
     );
   }
 
-  /* ---------------- DELETE ---------------- */
-
   deleteWorkOrder(docId: string) {
     this.workOrderDocuments.update((docs) => docs.filter((d) => d.docId !== docId));
+  }
+
+  hasOverlap(workCenterId: string, startDate: Date, endDate: Date, ignoreDocId?: string): boolean {
+    return this.workOrders()
+      .filter((o) => o.workCenterId === workCenterId)
+      .filter((o) => o.docId !== ignoreDocId)
+      .some((o) => startDate <= o.endDate && endDate >= o.startDate);
   }
 }

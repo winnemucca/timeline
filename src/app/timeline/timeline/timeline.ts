@@ -1,7 +1,8 @@
-import { Component, inject, computed, signal } from '@angular/core';
+import { Component, inject, computed, signal, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { effect } from '@angular/core';
 
 import { Schedule } from '../../services/schedule';
 import { WorkOrder, WorkOrderFormValue } from '../../models/work-order.model';
@@ -25,7 +26,8 @@ interface PositionedWorkOrder {
   },
 })
 export class Timeline {
-  /* ================= DI ================= */
+  @ViewChild('rightColumn', { static: true })
+  rightColumn!: ElementRef<HTMLDivElement>;
 
   readonly schedule = inject(Schedule);
 
@@ -50,6 +52,18 @@ export class Timeline {
       if (value) {
         this.timescale.set(value);
       }
+    });
+
+    effect(() => {
+      // dependencies
+      this.timescale();
+      this.units();
+      this.todayOffsetPx();
+
+      // wait until DOM is painted
+      requestAnimationFrame(() => {
+        this.centerOnToday();
+      });
     });
   }
 
@@ -117,7 +131,7 @@ export class Timeline {
   readonly months = computed(() =>
     this.units().reduce<{ label: string; span: number }[]>((acc, unit) => {
       const label = unit.toLocaleDateString('en-US', {
-        month: 'long',
+        month: 'short',
         year: 'numeric',
       });
 
@@ -237,11 +251,36 @@ export class Timeline {
   }
 
   onPanelSave(form: WorkOrderFormValue) {
+    // CREATE
     if (this.panelMode === 'create' && this.panelWorkCenterId) {
+      const hasConflict = this.schedule.hasOverlap(
+        this.panelWorkCenterId,
+        form.startDate,
+        form.endDate,
+      );
+
+      if (hasConflict) {
+        alert('This work order overlaps another one in the same work center.');
+        return;
+      }
+
       this.schedule.createWorkOrder(form, this.panelWorkCenterId);
     }
 
+    // EDIT
     if (this.panelMode === 'edit' && this.editingOrder) {
+      const hasConflict = this.schedule.hasOverlap(
+        this.editingOrder.workCenterId,
+        form.startDate,
+        form.endDate,
+        this.editingOrder.docId,
+      );
+
+      if (hasConflict) {
+        alert('This work order overlaps another one in the same work center.');
+        return;
+      }
+
       this.schedule.updateWorkOrder(this.editingOrder.docId, form);
     }
 
@@ -261,11 +300,27 @@ export class Timeline {
 
   onEscape() {
     if (this.panelMode) {
-      this.closePanel(); // ← your existing method
+      this.closePanel();
     }
   }
 
   /* ================= HELPERS ================= */
+
+  private centerOnToday() {
+    const todayPx = this.todayOffsetPx();
+    if (todayPx === null) return;
+
+    const container = this.rightColumn.nativeElement;
+    const containerWidth = container.clientWidth;
+
+    // center today in viewport
+    const targetScrollLeft = todayPx - containerWidth / 2;
+
+    container.scrollTo({
+      left: Math.max(0, targetScrollLeft),
+      behavior: 'smooth',
+    });
+  }
 
   private overlaps(a: WorkOrder, b: WorkOrder): boolean {
     return (
