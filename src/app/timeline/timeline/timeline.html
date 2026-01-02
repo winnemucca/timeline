@@ -1,0 +1,115 @@
+<div class="timeline-root">
+  <!-- ===== HEADER ===== -->
+  <div class="timeline-header">
+    <div class="left-header">
+      <h2>Work Orders</h2>
+    </div>
+
+    <div class="right-header">
+      <!-- TIMESCALE SELECT (RIGHT HEADER / ABOVE GRID) -->
+      <div class="timescale-select">
+        <ng-select
+          [items]="['day', 'week', 'month']"
+          [formControl]="timescaleControl"
+          [clearable]="false"
+          [searchable]="false"
+        >
+          <ng-template ng-label-tmp let-item="item">
+            {{ item | titlecase }}
+          </ng-template>
+
+          <ng-template ng-option-tmp let-item="item">
+            {{ item | titlecase }}
+          </ng-template>
+        </ng-select>
+      </div>
+
+      <!-- MONTH GROUP HEADER -->
+      <div class="months-row">
+        @for (month of months(); track month.label) {
+          <div class="month-cell" [style.width.px]="month.span * pxPerUnit">
+            {{ month.label }}
+          </div>
+        }
+      </div>
+
+      <!-- UNIT HEADER -->
+      <div class="units-row">
+        @for (unit of units(); track unit.getTime()) {
+          <div class="unit-cell" [style.width.px]="pxPerUnit">
+            {{ scale.label(unit) }}
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BODY ===== -->
+  <div class="timeline-body">
+    <!-- LEFT FIXED COLUMN -->
+    <div class="left-column">
+      @for (wc of schedule.workCenters(); track wc.id) {
+        <div class="work-center-cell">
+          {{ wc.name }}
+        </div>
+      }
+    </div>
+
+    <!-- RIGHT SCROLLABLE GRID -->
+    <div class="right-column">
+      <!-- TODAY INDICATOR -->
+      @if (todayOffsetPx() !== null) {
+        <div class="today-indicator" [style.left.px]="todayOffsetPx()"></div>
+      }
+
+      <!-- WORK CENTER ROWS -->
+      @for (wc of schedule.workCenters(); track wc.id) {
+        <div class="timeline-row" [style.height.px]="getRowHeight(wc.id)">
+          <!-- GRID BACKGROUND -->
+          <div class="grid-row">
+            @for (unit of units(); track unit.getTime()) {
+              <div class="grid-cell" [style.width.px]="pxPerUnit"></div>
+            }
+          </div>
+
+          <!-- WORK ORDER BARS -->
+          @for (pwo of positionedOrdersFor(wc.id)(); track pwo.order.docId) {
+            <div class="work-order-bar" [ngClass]="pwo.order.status" [ngStyle]="getBarStyle(pwo)">
+              <span class="order-name">
+                {{ pwo.order.name }}
+              </span>
+
+              <span class="status-pill">
+                {{ pwo.order.status }}
+              </span>
+
+              <button
+                (click)="openMenu(pwo.order.docId); $event.stopPropagation()"
+                class="actions-btn"
+              >
+                ⋮
+              </button>
+
+              @if (activeMenuOrderId === pwo.order.docId) {
+                <div class="actions-menu">
+                  <button (click)="openEditPanel(pwo.order)">Edit</button>
+
+                  <button class="danger" (click)="onDelete(pwo.order)">Delete</button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (panelMode) {
+    <app-work-order-panel
+      [mode]="panelMode"
+      [order]="editingOrder"
+      (save)="onPanelSave($event)"
+      (cancel)="closePanel()"
+    />
+  }
+</div>
