@@ -31,18 +31,13 @@ export class Timeline {
 
   readonly schedule = inject(Schedule);
 
-  /* ================= CONSTANTS ================= */
-
   readonly leftColumnWidth = 220;
   readonly laneHeight = 40;
-
-  /* ================= TIMESCALE ================= */
 
   readonly timescaleControl = new FormControl<Timescale>('day', {
     nonNullable: true,
   });
 
-  // readonly timescale = computed<Timescale>(() => this.timescaleControl.value);
   readonly timescale = signal<Timescale>(this.timescaleControl.value);
 
   readonly scale = computed(() => TIMESCALE_CONFIG[this.timescale()]);
@@ -60,7 +55,6 @@ export class Timeline {
       this.units();
       this.todayOffsetPx();
 
-      // wait until DOM is painted
       requestAnimationFrame(() => {
         this.centerOnToday();
       });
@@ -70,8 +64,6 @@ export class Timeline {
   get pxPerUnit(): number {
     return this.scale().pxPerUnit;
   }
-
-  /* ================= DATE RANGE ================= */
 
   private readonly today = this.startOfDay(new Date());
 
@@ -96,8 +88,6 @@ export class Timeline {
         };
     }
   });
-
-  /* ================= GRID UNITS ================= */
 
   readonly units = computed(() => {
     const { start, end } = this.range();
@@ -126,8 +116,6 @@ export class Timeline {
     return units;
   });
 
-  /* ================= MONTH HEADER ================= */
-
   readonly months = computed(() =>
     this.units().reduce<{ label: string; span: number }[]>((acc, unit) => {
       const label = unit.toLocaleDateString('en-US', {
@@ -146,8 +134,6 @@ export class Timeline {
     }, []),
   );
 
-  /* ================= TODAY INDICATOR ================= */
-
   readonly todayOffsetPx = computed(() => {
     const units = this.units();
     if (!units.length) return null;
@@ -159,8 +145,6 @@ export class Timeline {
 
     return this.diffInUnits(start, this.today) * this.pxPerUnit;
   });
-
-  /* ================= POSITIONING ================= */
 
   positionedOrdersFor(workCenterId: string) {
     return computed(() => this.computePositionedOrders(workCenterId));
@@ -212,15 +196,11 @@ export class Timeline {
     };
   }
 
-  /* ================= MENU ================= */
-
   activeMenuOrderId: string | null = null;
 
   toggleMenu(orderId: string) {
     this.activeMenuOrderId = this.activeMenuOrderId === orderId ? null : orderId;
   }
-
-  /* ================= PANEL ================= */
 
   editingOrder: WorkOrder | null = null;
   panelMode: 'create' | 'edit' | null = null;
@@ -304,7 +284,7 @@ export class Timeline {
     }
   }
 
-  /* ================= HELPERS ================= */
+  /* HELPERS  */
 
   private centerOnToday() {
     const todayPx = this.todayOffsetPx();

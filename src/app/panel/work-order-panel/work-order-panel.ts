@@ -14,17 +14,11 @@ import { WorkOrder, WorkOrderStatus, WorkOrderFormValue } from '../../models/wor
   styleUrl: './work-order-panel.scss',
 })
 export class WorkOrderPanel {
-  /* ---------------- INPUT SIGNALS ---------------- */
-
   readonly mode = input<'create' | 'edit'>();
   readonly order = input<WorkOrder | null>(null);
 
-  /* ---------------- OUTPUTS ---------------- */
-
   readonly save = output<WorkOrderFormValue>();
   readonly cancel = output<void>();
-
-  /* ---------------- FORM ---------------- */
 
   readonly form: FormGroup;
 
@@ -49,7 +43,6 @@ export class WorkOrderPanel {
       endDate: [null, Validators.required],
     });
 
-    /* Populate form on edit */
     effect(() => {
       const order = this.order();
       if (!order) return;
@@ -82,7 +75,7 @@ export class WorkOrderPanel {
     this.cancel.emit();
   }
 
-  /* ---------------- DATE HELPERS ---------------- */
+  /* DATE HELPERS*/
 
   private toDateStruct(date: Date) {
     return {
